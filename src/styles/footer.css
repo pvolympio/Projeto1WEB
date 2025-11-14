@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Aboreto&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+footer{
+    font-family: "Aboreto", system-ui;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: #33A1E0;
+    height: 10vh;
+    font-size: large;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    
+
+    a{
+        text-decoration: none;
+        color: #EEEEEE;
+    }
+}

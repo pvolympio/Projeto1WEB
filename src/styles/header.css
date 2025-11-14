@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Aboreto&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+
+header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    height: 10vh;
+    background-color: #33A1E0;
+    padding-left: 1rem;
+}
+
+.fifaLogo{
+    width: 6rem;
+}
+
+.linksNav{
+    font-family: "Aboreto", system-ui;
+    font-weight: 500;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    width: 100%;
+    gap: 2rem;
+    padding-right: 1rem;
+    font-size: large;
+
+    a{
+        text-decoration: none;
+        color: white;
+    }
+
+    a:hover{
+        transition: 0.2s;
+        transform: scale(1.2,1.2);
+    }
+}

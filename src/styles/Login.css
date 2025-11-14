@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Aboreto&display=swap');
+
+.loginDiv{
+  flex: 1;
+  display: flex;
+  height: 80vh;
+  width: 100%;
+  justify-content: center;
+  background-image: url("https://wallpapers.com/images/hd/soccer-stadium-1920-x-1080-background-azhfleqn4fphxk17.jpg");
+  background-size: cover;
+}
+
+.loginForm {
+  background-color: white;
+  padding-top:2.5rem;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 1px 1px 15px aqua;
+  width: 100%;
+  max-width: 400px;
+  height: 50%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.loginForm:hover{
+  transform: scale(1.05,1.05);
+  transition: 0.2s;
+}
+
+.userInput {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.userInput input {
+  padding: 1rem;
+  border: 2px solid #e1e5e9;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: #FFFBDE;
+  font-style: italic;
+}
+
+.userInput input:focus {
+  outline: none;
+  border-color: #33A1E0
+}
+
+.btnEntrar {
+  width: 100%;
+  padding: 1rem;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: opacity 0.3s;
+  font-family: "Aboreto", system-ui;
+  background-color: #1D546C;
+  margin-top: 3rem;
+  box-shadow: 1px 1px 20px #1D546C;
+}
+
+.btnEntrar:hover {
+  box-shadow: 1px 1px 20px #33A1E0;
+  color: black;
+  background-color:#33A1E0;
+  transition: 0.2s;
+}
+
+.link-cadastrar {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.aqui{
+  color: #1D546C;
+  text-decoration: none;
+}
+
+.aqui:hover{
+  color: #33A1E0;
+}
+
+
