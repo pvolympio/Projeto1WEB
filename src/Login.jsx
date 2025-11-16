@@ -16,6 +16,8 @@ function Login() {
 
       <form className="loginForm" onSubmit={loginAction}> 
 
+        <h2>Entre com sua conta</h2>
+
         <div className="userInput">
           <input type="email" name='email' id='email' placeholder='Digite seu E-mail' aria-label='Email'/>
           <input type="password" name='password' id='password' placeholder='Digite sua senha' aria-label='Senha' /> 
