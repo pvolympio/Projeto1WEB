@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Aboreto&display=swap');
+
+.createUserContainer{
+  flex: 1;
+  display: flex;
+  height: 80vh;
+  width: 100%;
+  justify-content: center;
+  background-image: url("https://wallpapers.com/images/hd/soccer-stadium-1920-x-1080-background-azhfleqn4fphxk17.jpg");
+  background-size: cover;
+}
+
+.createUserForm {
+  background-color: white;
+  padding-top:2.5rem;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 1px 1px 15px aqua;
+  width: 100%;
+  max-width: 400px;
+  height: 72%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+h2{
+  font-family: "Aboreto", system-ui;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.createUserForm:hover{
+  transform: scale(1.05,1.05);
+  transition: 0.2s;
+}
+
+.btnCriarConta {
+  width: 100%;
+  padding: 1rem;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-family: "Aboreto", system-ui;
+  background-color: #1D546C;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  box-shadow: 1px 1px 20px #1D546C;
+}
+
+.btnCriarConta:hover {
+  color: black;
+  background-color: #33A1E0;
+  box-shadow: 1px 1px 20px #33A1E0;
+  transition: 0.2s;
+}
+
+.link-login{
+  text-align: center;
+}
+
+.redirecionaLogin{
+    text-decoration: none;
+    color: #1D546C;
+    font-weight: bold;
+}
+
+.redirecionaLogin:hover{
+    color: #33A1E0;
+    transition: 0.2s;
+}

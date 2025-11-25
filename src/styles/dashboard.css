@@ -1,0 +1,197 @@
+@import url('https://fonts.googleapis.com/css2?family=Aboreto&display=swap');
+
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.dashboardContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: black;
+}
+
+.dashboardSaudacao{
+    background-color: white;
+    box-shadow: 1px 1px 15px aqua;
+    display: flex;
+    flex-direction: column;
+    border-radius: 1.5rem;
+    align-items: center;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    padding: 2rem;
+    font-size: small;
+    
+    h1{
+        font-family: "Aboreto", system-ui;
+        margin-bottom: 1rem;
+    }
+
+    .btnLogout{
+        width: 80%;
+        padding: 1rem;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-family: "Aboreto", system-ui;
+        background-color: #1D546C;
+        font-size: 1rem;
+        cursor: pointer;
+        box-shadow: 1px 1px 20px #1D546C;
+    }
+
+    .btnLogout:hover {
+        color: black;
+        background-color: #33A1E0;
+        box-shadow: 1px 1px 20px #33A1E0;
+        transition: 0.2s;
+    }
+}
+
+.dashboardSaudacao:hover{
+    transform: scale(1.05,1.05);
+    transition: 0.2s;
+}
+
+.formCadastro{
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 1px 1px 15px aqua;
+    border-radius: 1.5rem;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+
+
+    .btnCadastrarJogador{
+        width: 80%;
+        padding: 1rem;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-family: "Aboreto", system-ui;
+        background-color: #1D546C;
+        font-size: 1rem;
+        cursor: pointer;
+        box-shadow: 1px 1px 20px #1D546C;
+    }
+
+    .btnCadastrarJogador:hover {
+        color: black;
+        background-color: #33A1E0;
+        box-shadow: 1px 1px 20px #33A1E0;
+        transition: 0.2s;
+    }
+
+    select{
+        width: 100%;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-style: italic;
+        background-color: rgb(255, 251, 222);
+    }
+}
+
+.formCadastro:hover{
+    transform: scale(1.05,1.05);
+    transition: 0.2s;
+}
+
+.listaJogadores{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 80%;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+}
+
+.cardJogador{
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid aqua;
+    box-shadow: 1px 1px 15px aqua;
+    border-radius: 1rem;
+    font-style: italic;
+    width: 20rem;
+    max-width: 20rem;
+
+    h3{
+        font-family: "Aboreto", system-ui;
+        font-size: larger;
+        margin-top: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .nacionalidadeCard{
+        margin-top: 0.5rem;
+    }
+
+    .atributosCard{
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .btnCard{
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        justify-content: center;
+        margin-bottom: 0.8rem
+    }
+
+    .btnEditarJogador{
+        background-color: yellow;
+        padding: 0.2rem;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: medium;
+        border-radius: 0.5rem;
+        box-shadow: 1px 1px 5px black;
+    }
+
+    .btnEditarJogador:hover{
+        transform: scale(1.1,1.1);
+        transition: 0.1s;
+    }
+
+    .btnExcluirJogador{
+        background-color: red;
+        padding: 0.2rem;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: medium;
+        border-radius: 0.5rem;
+        box-shadow: 1px 1px 5px black;
+    }
+
+    .btnExcluirJogador:hover{
+        transform: scale(1.1,1.1);
+        transition: 0.1s;
+    }
+
+    .imgCard{
+        width: 10rem;
+        aspect-ratio: 1;
+        border-radius: 1rem;
+    }
+
+}
+
+.cardJogador:hover{
+    transform: scale(1.05,1.05);
+    transition: 0.2s;
+}
