@@ -10,8 +10,7 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-image: url("https://wallpapers.com/images/hd/soccer-stadium-1920-x-1080-background-azhfleqn4fphxk17.jpg");
-
+    background-color: black;
 }
 
 .dashboardSaudacao{
@@ -101,6 +100,98 @@ body{
 }
 
 .formCadastro:hover{
+    transform: scale(1.05,1.05);
+    transition: 0.2s;
+}
+
+.listaJogadores{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 80%;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+}
+
+.cardJogador{
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid aqua;
+    box-shadow: 1px 1px 15px aqua;
+    border-radius: 1rem;
+    font-style: italic;
+    width: 20rem;
+    max-width: 20rem;
+
+    h3{
+        font-family: "Aboreto", system-ui;
+        font-size: larger;
+        margin-top: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .nacionalidadeCard{
+        margin-top: 0.5rem;
+    }
+
+    .atributosCard{
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .btnCard{
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        justify-content: center;
+        margin-bottom: 0.8rem
+    }
+
+    .btnEditarJogador{
+        background-color: yellow;
+        padding: 0.2rem;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: medium;
+        border-radius: 0.5rem;
+        box-shadow: 1px 1px 5px black;
+    }
+
+    .btnEditarJogador:hover{
+        transform: scale(1.1,1.1);
+        transition: 0.1s;
+    }
+
+    .btnExcluirJogador{
+        background-color: red;
+        padding: 0.2rem;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: medium;
+        border-radius: 0.5rem;
+        box-shadow: 1px 1px 5px black;
+    }
+
+    .btnExcluirJogador:hover{
+        transform: scale(1.1,1.1);
+        transition: 0.1s;
+    }
+
+    .imgCard{
+        width: 10rem;
+        aspect-ratio: 1;
+        border-radius: 1rem;
+    }
+
+}
+
+.cardJogador:hover{
     transform: scale(1.05,1.05);
     transition: 0.2s;
 }

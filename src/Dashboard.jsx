@@ -151,7 +151,32 @@ export default function Dashboard() {
             </div>
 
             <div className="listaJogadores">
-                <h2>Jogadores Cadastrados</h2>
+
+                <div className="cardJogador">
+                    <h3 className="nomeCard">Vampeta</h3>
+                    <img className="imgCard" src='https://i.redd.it/u9tw7pgbe27b1.jpg'></img>
+                    <p className="nacionalidadeCard">Brasil</p>
+                    <p className="timeCard">Corinthians</p>
+                    <p className="posicaoCard">Meia Atacante (CAM)</p>
+                    <div className="atributosCard">
+                        <p>🏃 Ritmo: 85</p>
+                        <p>⚽ Chute: 78</p>
+                        <p>🎯 Passe: 90</p>
+                        <p>🌟 Drible: 88</p>
+                        <p>🛡️ Defesa: 60</p>
+                        <p>💪 Físico: 80</p>
+                        <p>🏆 Overall: 80</p>
+                    </div>
+
+                    <div className="btnCard">
+                        <button className="btnEditarJogador">✏️ Editar</button>
+                        <button className="btnExcluirJogador">❌ Excluir</button>
+                    </div>
+
+                </div>
+                
+
+                
             </div>
             
 
