@@ -9,7 +9,7 @@ export default function Header (){
 
             <nav className = "linksNav">
                 <a href="https://www.fifa.com" target="_blank">Site oficial FIFA</a>
-                <a href="" target="_blank">GitHub</a>
+                <a href="https://github.com/pvolympio/Projeto1WEB" target="_blank">GitHub</a>
             </nav> 
 
         </header>
