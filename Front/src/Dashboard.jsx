@@ -1,13 +1,13 @@
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './styles/Dashboard.css';
-import { useState, useEffect } from 'react';
 
 export default function Dashboard() {
     const navigate = useNavigate();
-    const [players, setPlayers] = useState([]); 
-    const handleLogout = () => {
-        navigate('/login');
-    }
+    const [players, setPlayers] = useState([]);
+
+    const [searchResults, setSearchResults] = useState([]);
+    const [showModal, setShowModal] = useState(false);
 
     const [form, setForm] = useState({
         playerName: '',
@@ -23,7 +23,67 @@ export default function Dashboard() {
         fisico: ''
     });
 
-    const buscarJogadores = async () => {
+    const translatePosition = (apiPosition) => {
+        const map = {
+            "Goalkeeper": "goleiro",
+            "Defender": "zagueiro",
+            "Centre Back": "zagueiro",
+            "Left Back": "lateralEsquerdo",
+            "Right Back": "lateralDireiro",
+            "Defensive Midfield": "volante",
+            "Midfielder": "meiaCentral",
+            "Central Midfield": "meiaCentral",
+            "Attacking Midfield": "meiaAtacante",
+            "Left Wing": "pontaEsquerda",
+            "Right Wing": "pontaDireita",
+            "Forward": "atacante",
+            "Striker": "atacante",
+            "Centre Forward": "atacante"
+        };
+        return map[apiPosition] || ""; 
+    };
+
+    //BUSCA NA API
+    const handleSearchAPI = async () => {
+        if (!form.playerName) {
+            alert("Digite o nome do jogador para buscar!");
+            return;
+        }
+
+        try {
+            const response = await fetch(`https://www.thesportsdb.com/api/v1/json/3/searchplayers.php?p=${form.playerName}`);
+            const data = await response.json();
+
+            if (data.player && data.player.length > 0) {
+                setSearchResults(data.player);
+                setShowModal(true);
+            } else {
+                alert("Nenhum jogador encontrado com esse nome. Tente novamente ou preencha manualmente.");
+            }
+        } catch (error) {
+            console.error("Erro ao buscar na API:", error);
+            alert("Erro na conexão com a API externa.");
+        }
+    };
+
+    //SELECIONAR JOGADOR DA LISTA 
+    const selectPlayer = (playerData) => {
+        setForm(prev => ({
+            ...prev,
+            playerName: playerData.strPlayer || prev.playerName,
+            playerNationality: playerData.strNationality || prev.playerNationality,
+            playerTeam: playerData.strTeam || prev.playerTeam,
+            imagePlayerURL: playerData.strCutout || playerData.strThumb || prev.imagePlayerURL,
+            playerPosition: translatePosition(playerData.strPosition) || prev.playerPosition
+        }));
+        
+        // Fecha o modal e limpa a busca
+        setShowModal(false);
+        setSearchResults([]);
+    };
+
+    // --- CRUD LOCAL (GET, POST, DELETE) ---
+    const fetchPlayers = async () => {
         try {
             const response = await fetch('http://localhost:5000/players');
             const data = await response.json();
@@ -33,9 +93,8 @@ export default function Dashboard() {
         }
     };
 
-    // Carrega os jogadores quando o componente é montado
     useEffect(() => {
-        buscarJogadores();
+        fetchPlayers();
     }, []);
 
     const handleInputChange = (e) => {
@@ -44,7 +103,6 @@ export default function Dashboard() {
 
     const handleRegister = async (e) => {
         e.preventDefault();
-        
         try {
             const response = await fetch('http://localhost:5000/players', {
                 method: 'POST',
@@ -54,12 +112,12 @@ export default function Dashboard() {
 
             if (response.ok) {
                 alert("Jogador cadastrado com sucesso!");
-                setForm({ // Limpa o formulário
+                setForm({
                     playerName: '', playerNationality: '', playerTeam: '',
                     imagePlayerURL: '', playerPosition: '',
                     ritmo: '', chute: '', passe: '', drible: '', defesa: '', fisico: ''
                 });
-                buscarJogadores(); // Atualiza a lista na tela
+                fetchPlayers();
             } else {
                 alert("Erro ao cadastrar jogador.");
             }
@@ -74,17 +132,15 @@ export default function Dashboard() {
                 const response = await fetch(`http://localhost:5000/players/${id}`, {
                     method: 'DELETE'
                 });
-
-                if (response.ok) {
-                    alert("Jogador excluído!");
-                    buscarJogadores(); // Atualiza a lista
-                } else {
-                    alert("Erro ao excluir.");
-                }
+                if (response.ok) fetchPlayers();
             } catch (error) {
                 console.error("Erro ao excluir:", error);
             }
         }
+    };
+
+    const handleLogout = () => {
+        navigate('/login');
     };
 
     return (
@@ -94,12 +150,54 @@ export default function Dashboard() {
                 <button onClick={handleLogout} className="btnLogout">Sair</button>
             </div>
 
+            {/* --- MODAL DE SELEÇÃO DE JOGADORES --- */}
+            {showModal && (
+                <div className="modalOverlay">
+                    <div className="modalContent">
+                        <h2>Selecione o Jogador</h2>
+                        <ul className="resultsList">
+                            {searchResults.map((player) => (
+                                <li key={player.idPlayer} onClick={() => selectPlayer(player)} className="resultItem">
+                                    <img 
+                                        src={player.strCutout || player.strThumb || 'https://placehold.co/50'} 
+                                        alt={player.strPlayer} 
+                                        className="thumbSmall"
+                                    />
+                                    <div className="playerInfo">
+                                        <strong>{player.strPlayer}</strong>
+                                        <span>{player.strTeam} ({player.strNationality})</span>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                        <button className="btnCloseModal" onClick={() => setShowModal(false)}>Cancelar</button>
+                    </div>
+                </div>
+            )}
+
             <div className="areaCadastro">
                 <form className="formCadastro" onSubmit={handleRegister}>
                     <h2>Cadastre seu jogador</h2>
+                    
                     <div className="userInput">
-                        <input type="text" name='playerName' placeholder='Nome do jogador' 
-                            value={form.playerName} onChange={handleInputChange} required />
+                        <div style={{ display: 'flex', gap: '10px', width: '100%' }}>
+                            <input 
+                                type="text" 
+                                name='playerName' 
+                                placeholder='Nome do jogador (Ex: Ronaldo)' 
+                                value={form.playerName} 
+                                onChange={handleInputChange} 
+                                required 
+                                style={{ flex: 1 }} 
+                            />
+                            <button 
+                                type="button" 
+                                onClick={handleSearchAPI}
+                                className="btnBuscar"
+                            >
+                                🔍 Buscar
+                            </button>
+                        </div>
 
                         <input type="text" name='playerNationality' placeholder='Nacionalidade' 
                             value={form.playerNationality} onChange={handleInputChange} required />
@@ -115,7 +213,7 @@ export default function Dashboard() {
                             <option value="goleiro">Goleiro (GK)</option>
                             <option value="zagueiro">Zagueiro (CB)</option>
                             <option value="lateralEsquerdo">Lateral Esquerdo (LB)</option>
-                            <option value="lateralDireito">Lateral Direito (RB)</option>
+                            <option value="lateralDireiro">Lateral Direito (RB)</option>
                             <option value="volante">Volante (CDM)</option>
                             <option value="meiaCentral">Meia Central (CM)</option>
                             <option value="meiaAtacante">Meia Atacante (CAM)</option>
@@ -142,6 +240,7 @@ export default function Dashboard() {
                             ))}
                         </div>
                     </div>
+                    
                     <button type="submit" className="btnCadastrarJogador">Cadastrar Jogador</button>
                 </form>
             </div>
@@ -153,7 +252,6 @@ export default function Dashboard() {
                     players.map((player) => (
                         <div className="cardJogador" key={player.id}>
                             <h3 className="nomeCard">{player.playerName}</h3>
-                            {/* Se não houver imagem, mostra um placeholder */}
                             <img className="imgCard" src={player.imagePlayerURL || 'https://placehold.co/150'} alt={player.playerName} />
                             <p className="nacionalidadeCard">{player.playerNationality}</p>
                             <p className="timeCard">{player.playerTeam}</p>
@@ -167,9 +265,8 @@ export default function Dashboard() {
                                 <p>💪 Físico: {player.fisico}</p>
                                 <p className="overall">🏆 Overall: {player.overall}</p>
                             </div>
-
                             <div className="btnCard">
-                                <button className="btnEditarJogador" onClick={() => alert('Função Editar em desenvolvimento!')}>✏️ Editar</button>
+                                <button className="btnEditarJogador" onClick={() => alert('Em breve!')}>✏️ Editar</button>
                                 <button className="btnExcluirJogador" onClick={() => handleDelete(player.id)}>❌ Excluir</button>
                             </div>
                         </div>
@@ -178,5 +275,4 @@ export default function Dashboard() {
             </div>
         </div>
     );
-
 }
