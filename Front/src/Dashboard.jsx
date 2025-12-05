@@ -5,11 +5,12 @@ import './styles/Dashboard.css';
 export default function Dashboard() {
     const navigate = useNavigate();
     const [players, setPlayers] = useState([]);
+    const [editingId, setEditingId] = useState(null);
 
     const [searchResults, setSearchResults] = useState([]);
     const [showModal, setShowModal] = useState(false);
 
-    const [form, setForm] = useState({
+    const initialFormState = {
         playerName: '',
         playerNationality: '',
         playerTeam: '',
@@ -21,7 +22,9 @@ export default function Dashboard() {
         drible: '',
         defesa: '',
         fisico: ''
-    });
+    };
+
+    const [form, setForm] = useState(initialFormState);
 
     const translatePosition = (apiPosition) => {
         const map = {
@@ -42,8 +45,6 @@ export default function Dashboard() {
         };
         return map[apiPosition] || ""; 
     };
-
-    //BUSCA NA API
     const handleSearchAPI = async () => {
         if (!form.playerName) {
             alert("Digite o nome do jogador para buscar!");
@@ -66,7 +67,6 @@ export default function Dashboard() {
         }
     };
 
-    //SELECIONAR JOGADOR DA LISTA 
     const selectPlayer = (playerData) => {
         setForm(prev => ({
             ...prev,
@@ -77,12 +77,10 @@ export default function Dashboard() {
             playerPosition: translatePosition(playerData.strPosition) || prev.playerPosition
         }));
         
-        // Fecha o modal e limpa a busca
         setShowModal(false);
         setSearchResults([]);
     };
 
-    // --- CRUD LOCAL (GET, POST, DELETE) ---
     const fetchPlayers = async () => {
         try {
             const response = await fetch('http://localhost:5000/players');
@@ -101,25 +99,50 @@ export default function Dashboard() {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
+
+    const handleEdit = (player) => {
+        setEditingId(player.id); 
+        setForm({
+            playerName: player.playerName,
+            playerNationality: player.playerNationality,
+            playerTeam: player.playerTeam,
+            imagePlayerURL: player.imagePlayerURL,
+            playerPosition: player.playerPosition,
+            ritmo: player.ritmo,
+            chute: player.chute,
+            passe: player.passe,
+            drible: player.drible,
+            defesa: player.defesa,
+            fisico: player.fisico
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+    const handleCancelEdit = () => {
+        setEditingId(null);
+        setForm(initialFormState);
+    };
     const handleRegister = async (e) => {
         e.preventDefault();
+        const url = editingId 
+            ? `http://localhost:5000/players/${editingId}` 
+            : 'http://localhost:5000/players';
+        
+        const method = editingId ? 'PUT' : 'POST';
+
         try {
-            const response = await fetch('http://localhost:5000/players', {
-                method: 'POST',
+            const response = await fetch(url, {
+                method: method,
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(form)
             });
 
             if (response.ok) {
-                alert("Jogador cadastrado com sucesso!");
-                setForm({
-                    playerName: '', playerNationality: '', playerTeam: '',
-                    imagePlayerURL: '', playerPosition: '',
-                    ritmo: '', chute: '', passe: '', drible: '', defesa: '', fisico: ''
-                });
-                fetchPlayers();
+                alert(editingId ? "Jogador atualizado com sucesso!" : "Jogador cadastrado com sucesso!");
+                setForm(initialFormState); 
+                setEditingId(null); 
+                fetchPlayers(); 
             } else {
-                alert("Erro ao cadastrar jogador.");
+                alert("Erro ao salvar jogador.");
             }
         } catch (error) {
             console.error("Erro na requisição:", error);
@@ -149,8 +172,6 @@ export default function Dashboard() {
                 <h1>Bem-vindo ao Dashboard!</h1>
                 <button onClick={handleLogout} className="btnLogout">Sair</button>
             </div>
-
-            {/* --- MODAL DE SELEÇÃO DE JOGADORES --- */}
             {showModal && (
                 <div className="modalOverlay">
                     <div className="modalContent">
@@ -177,7 +198,7 @@ export default function Dashboard() {
 
             <div className="areaCadastro">
                 <form className="formCadastro" onSubmit={handleRegister}>
-                    <h2>Cadastre seu jogador</h2>
+                    <h2>{editingId ? "Editar Jogador" : "Cadastre seu jogador"}</h2>
                     
                     <div className="userInput">
                         <div style={{ display: 'flex', gap: '10px', width: '100%' }}>
@@ -240,8 +261,21 @@ export default function Dashboard() {
                             ))}
                         </div>
                     </div>
-                    
-                    <button type="submit" className="btnCadastrarJogador">Cadastrar Jogador</button>
+                    <div style={{ display: 'flex', gap: '10px', width: '100%', justifyContent: 'center' }}>
+                        <button type="submit" className="btnCadastrarJogador">
+                            {editingId ? "Atualizar Jogador" : "Cadastrar Jogador"}
+                        </button>
+                        {editingId && (
+                            <button 
+                                type="button" 
+                                className="btnCadastrarJogador" 
+                                style={{ backgroundColor: '#dc3545' }} 
+                                onClick={handleCancelEdit}
+                            >
+                                Cancelar
+                            </button>
+                        )}
+                    </div>
                 </form>
             </div>
 
@@ -266,7 +300,7 @@ export default function Dashboard() {
                                 <p className="overall">🏆 Overall: {player.overall}</p>
                             </div>
                             <div className="btnCard">
-                                <button className="btnEditarJogador" onClick={() => alert('Em breve!')}>✏️ Editar</button>
+                                <button className="btnEditarJogador" onClick={() => handleEdit(player)}>✏️ Editar</button>
                                 <button className="btnExcluirJogador" onClick={() => handleDelete(player.id)}>❌ Excluir</button>
                             </div>
                         </div>
