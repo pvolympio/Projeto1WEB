@@ -2,7 +2,7 @@
 
 // banco de dados para testar
 const users = [
-    { id: 1, name: "Admin", email: "teste@email.com", password: "123" }
+    { id: 1, name: "Admin", email: "teste@email.com", password: "123456" }
 ];
 const login = (req, res) => {
     const { email, password } = req.body;
@@ -23,6 +23,11 @@ const register = (req, res) => {
     if (userExists) {
         return res.status(400).json({ message: "Este e-mail já está em uso!" });
     }
+    if(password.length < 7){
+        return res.status(400).json({ message: "a senha deve ser maior que 6 caracteres" });
+    }
+
+    
     const newUser = {
         id: users.length + 1,
         name,    
