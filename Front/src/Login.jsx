@@ -23,7 +23,10 @@ function Login() {
       const data = await response.json();
 
       if (response.ok) {
-        // Sucesso: pode salvar o user/token se necessário e navegar
+        // --- MUDANÇA: Salvar o Token ---
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        
         console.log("Login sucesso:", data);
         navigate('/dashboard'); 
       } else {

@@ -45,6 +45,8 @@ export default function Dashboard() {
         };
         return map[apiPosition] || ""; 
     };
+
+    // --- API Externa (Não precisa de token) ---
     const handleSearchAPI = async () => {
         if (!form.playerName) {
             alert("Digite o nome do jogador para buscar!");
@@ -81,9 +83,24 @@ export default function Dashboard() {
         setSearchResults([]);
     };
 
+    // --- Buscar Jogadores (COM TOKEN) ---
     const fetchPlayers = async () => {
+        const token = localStorage.getItem('token');
+        if (!token) return; // Se não tiver token, nem tenta
+
         try {
-            const response = await fetch('http://localhost:5000/players');
+            const response = await fetch('http://localhost:5000/players', {
+                headers: {
+                    'Authorization': `Bearer ${token}` // <--- Token aqui
+                }
+            });
+            
+            if (response.status === 403 || response.status === 401) {
+                alert("Sessão expirada. Faça login novamente.");
+                handleLogout();
+                return;
+            }
+
             const data = await response.json();
             setPlayers(data);
         } catch (error) {
@@ -93,12 +110,11 @@ export default function Dashboard() {
 
     useEffect(() => {
         fetchPlayers();
-    }, []);
+    }, );
 
     const handleInputChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
-
 
     const handleEdit = (player) => {
         setEditingId(player.id); 
@@ -117,10 +133,13 @@ export default function Dashboard() {
         });
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
+
     const handleCancelEdit = () => {
         setEditingId(null);
         setForm(initialFormState);
     };
+
+    // --- Registar/Atualizar (COM TOKEN) ---
     const handleRegister = async (e) => {
         e.preventDefault();
         const url = editingId 
@@ -128,11 +147,15 @@ export default function Dashboard() {
             : 'http://localhost:5000/players';
         
         const method = editingId ? 'PUT' : 'POST';
+        const token = localStorage.getItem('token');
 
         try {
             const response = await fetch(url, {
                 method: method,
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` // <--- Token aqui
+                },
                 body: JSON.stringify(form)
             });
 
@@ -142,18 +165,24 @@ export default function Dashboard() {
                 setEditingId(null); 
                 fetchPlayers(); 
             } else {
-                alert("Erro ao salvar jogador.");
+                const data = await response.json();
+                alert(data.message || "Erro ao salvar jogador.");
             }
         } catch (error) {
             console.error("Erro na requisição:", error);
         }
     };
 
+    // --- Deletar (COM TOKEN) ---
     const handleDelete = async (id) => {
         if (confirm("Tem certeza que deseja excluir este jogador?")) {
+            const token = localStorage.getItem('token');
             try {
                 const response = await fetch(`http://localhost:5000/players/${id}`, {
-                    method: 'DELETE'
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}` // <--- Token aqui
+                    }
                 });
                 if (response.ok) fetchPlayers();
             } catch (error) {
@@ -163,6 +192,8 @@ export default function Dashboard() {
     };
 
     const handleLogout = () => {
+        localStorage.removeItem('token'); // Limpar token
+        localStorage.removeItem('user');  // Limpar user
         navigate('/login');
     };
 

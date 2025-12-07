@@ -2,6 +2,10 @@
 const express = require('express');
 const router = express.Router();
 const playerController = require('../controllers/playerController');
+const verifyToken = require('../middlewares/authMiddleware'); 
+
+// Aplicar o middleware em todas as rotas abaixo
+router.use(verifyToken);
 
 // Rotas
 router.get('/', playerController.getPlayers);      // Listar
