@@ -46,7 +46,7 @@ export default function Dashboard() {
         return map[apiPosition] || ""; 
     };
 
-    // --- API Externa (Não precisa de token) ---
+    // --- API Externa 
     const handleSearchAPI = async () => {
         if (!form.playerName) {
             alert("Digite o nome do jogador para buscar!");
@@ -83,15 +83,15 @@ export default function Dashboard() {
         setSearchResults([]);
     };
 
-    // --- Buscar Jogadores (COM TOKEN) ---
+    // --- Buscar Jogadores
     const fetchPlayers = async () => {
         const token = localStorage.getItem('token');
-        if (!token) return; // Se não tiver token, nem tenta
+        if (!token) return; 
 
         try {
             const response = await fetch('http://localhost:5000/players', {
                 headers: {
-                    'Authorization': `Bearer ${token}` // <--- Token aqui
+                    'Authorization': `Bearer ${token}`
                 }
             });
             
@@ -139,7 +139,7 @@ export default function Dashboard() {
         setForm(initialFormState);
     };
 
-    // --- Registar/Atualizar (COM TOKEN) ---
+    // --- Registar/Atualizar
     const handleRegister = async (e) => {
         e.preventDefault();
         const url = editingId 
@@ -154,7 +154,7 @@ export default function Dashboard() {
                 method: method,
                 headers: { 
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}` // <--- Token aqui
+                    'Authorization': `Bearer ${token}` 
                 },
                 body: JSON.stringify(form)
             });
@@ -173,7 +173,7 @@ export default function Dashboard() {
         }
     };
 
-    // --- Deletar (COM TOKEN) ---
+    // --- Deletar
     const handleDelete = async (id) => {
         if (confirm("Tem certeza que deseja excluir este jogador?")) {
             const token = localStorage.getItem('token');
@@ -181,7 +181,7 @@ export default function Dashboard() {
                 const response = await fetch(`http://localhost:5000/players/${id}`, {
                     method: 'DELETE',
                     headers: {
-                        'Authorization': `Bearer ${token}` // <--- Token aqui
+                        'Authorization': `Bearer ${token}` 
                     }
                 });
                 if (response.ok) fetchPlayers();
@@ -192,8 +192,8 @@ export default function Dashboard() {
     };
 
     const handleLogout = () => {
-        localStorage.removeItem('token'); // Limpar token
-        localStorage.removeItem('user');  // Limpar user
+        localStorage.removeItem('token'); 
+        localStorage.removeItem('user');  
         navigate('/login');
     };
 

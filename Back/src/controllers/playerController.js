@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-// Caminho para o ficheiro de jogadores
+// Caminho para o banco de jogadores
 const playersFilePath = path.join(__dirname, '../../database/players.json');
 
 // Função auxiliar para ler jogadores
@@ -37,10 +37,10 @@ const createPlayer = (req, res) => {
     const stats = [ritmo, chute, passe, drible, defesa, fisico].map(Number);
     const overall = Math.round(stats.reduce((a, b) => a + b, 0) / 6);
 
-    const players = getPlayersData(); // Ler atuais
+    const players = getPlayersData(); 
 
     const newPlayer = {
-        id: players.length > 0 ? players[players.length - 1].id + 1 : 1, // Gera ID
+        id: players.length > 0 ? players[players.length - 1].id + 1 : 1, 
         playerName,
         playerNationality,
         playerTeam,
@@ -56,7 +56,7 @@ const createPlayer = (req, res) => {
     };
 
     players.push(newPlayer);
-    savePlayersData(players); // Salvar no ficheiro
+    savePlayersData(players); 
 
     return res.status(201).json({ 
         message: "Jogador criado com sucesso!", 
@@ -66,7 +66,7 @@ const createPlayer = (req, res) => {
 
 const updatePlayer = (req, res) => {
     const { id } = req.params;
-    const players = getPlayersData(); // Ler atuais
+    const players = getPlayersData(); 
     const index = players.findIndex(p => p.id == id);
 
     if (index === -1) {
@@ -109,7 +109,7 @@ const updatePlayer = (req, res) => {
         overall
     };
 
-    savePlayersData(players); // Salvar atualização
+    savePlayersData(players); 
 
     return res.status(200).json({ 
         message: "Jogador atualizado!", 
@@ -119,7 +119,7 @@ const updatePlayer = (req, res) => {
 
 const deletePlayer = (req, res) => {
     const { id } = req.params;
-    let players = getPlayersData(); // Ler atuais
+    let players = getPlayersData();
     const index = players.findIndex(p => p.id == id);
 
     if (index === -1) {
@@ -127,7 +127,7 @@ const deletePlayer = (req, res) => {
     }
 
     players.splice(index, 1);
-    savePlayersData(players); // Salvar após remoção
+    savePlayersData(players); 
 
     return res.status(200).json({ message: "Jogador excluído com sucesso!" });
 };

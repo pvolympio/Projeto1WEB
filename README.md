@@ -50,10 +50,6 @@ npm run dev
 
 Acesse a aplicação no navegador (geralmente em http://localhost:5173)
 
-* Observação Importante:
-Atualmente o backend não utiliza banco de dados SQL/NoSQL. Os dados (usuários e jogadores) são armazenados em arrays na memória do servidor (arquivos playerController.js e authController.js).
-Isso significa que se você reiniciar o backend, os dados cadastrados serão perdidos e voltarão ao estado inicial.
-
 -> Prints da página:
 
 Página inicial (login):

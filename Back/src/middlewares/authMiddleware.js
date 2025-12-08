@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const SECRET_KEY = "minha_chave_secreta_super_segura"; // Tem de ser igual à do controller
+const SECRET_KEY = "minha_chave";
 
 const verifyToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
@@ -12,7 +12,7 @@ const verifyToken = (req, res, next) => {
     try {
         const verified = jwt.verify(token, SECRET_KEY);
         req.user = verified; // Guarda os dados do utilizador na requisição
-        next(); // Pode passar
+        next(); 
     } catch (error) {
         res.status(403).json({ message: "Token inválido!" });
     }

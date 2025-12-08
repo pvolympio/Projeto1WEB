@@ -2,9 +2,9 @@ const fs = require('fs');
 const path = require('path');
 const jwt = require('jsonwebtoken'); 
 
-const SECRET_KEY = "minha_chave_secreta_super_segura"; // Em produção, usar .env
+const SECRET_KEY = "minha_chave"; 
 
-// ... (manter as funções getUsers e saveUsers iguais ao passo anterior) ...
+
 const usersFilePath = path.join(__dirname, '../../database/users.json');
 
 const getUsers = () => {
@@ -19,7 +19,7 @@ const getUsers = () => {
 const saveUsers = (users) => {
     fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2));
 };
-// ... (fim das funções auxiliares) ...
+
 
 const login = (req, res) => {
     const { email, password } = req.body;
@@ -40,12 +40,12 @@ const login = (req, res) => {
 
     return res.status(200).json({ 
         message: "Login realizado com sucesso!", 
-        token, // <--- Enviar o token para o front
+        token, 
         user: { id: user.id, name: user.name, email: user.email }
     });
 };
 
-// ... (manter a função register igual) ...
+
 const register = (req, res) => {
     const { name, email, password } = req.body;
     const users = getUsers(); 

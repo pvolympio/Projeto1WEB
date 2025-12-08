@@ -3,7 +3,7 @@ import Footer from "./Footer"
 import Login from "./Login"
 import Dashboard from "./Dashboard"
 import CreateUser from "./CreateUser" 
-import PrivateRoute from "./PrivateRoute" // <--- Importar
+import PrivateRoute from "./PrivateRoute" 
 import { Routes, Route } from 'react-router-dom'
 
 function App() {
